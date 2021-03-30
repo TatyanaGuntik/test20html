@@ -45,7 +45,7 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
             }
 
             .dropdown.open .caret {
-                transform: rotate(200grad)
+                transform: rotate(-100grad);
             }
 
             .dropdown-menu > li > a {
@@ -54,8 +54,20 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
                 text-overflow: ellipsis;
             }
 
-            .dropdown.subcategories:hover > .dropdown-menu {
+            .dropdown.subcategories>.dropdown-menu {
                 display: block;
+                visibility: hidden;
+                opacity: 0;
+                transition: 0.5s;
+            }
+
+            .dropdown.subcategories:hover .dropdown-menu {
+                position: absolute;
+                left: 176px;
+                top: 0;
+                visibility: visible;
+                opacity: 1;
+                transition: 0.5s;
             }
 
             .form-wrapper {
@@ -66,15 +78,17 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
                 padding: 20px;
                 position: absolute;
                 top: 51px;
-                right: -163px;
+                left: -117px;
                 background: white;
-                opacity:0;
-                transition: 1s;
+                visibility: hidden;
+                opacity: 0;
+                transition: 0.5s;
             }
 
-            .form-toggle:hover > .form-wrapper {
+            .form-toggle:hover>.form-wrapper {
+                visibility: visible;
                 opacity: 1;
-                transition: 1s;
+                transition: 0.5s;
             }
 
             .form-title {
@@ -100,21 +114,25 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
                 width: 70%;
             }
 
+            .form input:focus {
+                outline: none;
+            }
+
             .form input[type="text"] {
                 border: 2px solid #e3e5ea;
                 border-radius: 10px;
                 height: 38px;
                 margin-bottom: 20px;
+                padding: 0 20px 0 20px;
             }
 
-            .form input[type="checkbox"] {
-                width: auto;
+            .require {
+                align-self: center;
             }
 
             input::placeholder {
                 color: #475360;
                 font-weight: bold;
-                padding-left: 20px;
             }
 
             .form label {
@@ -125,7 +143,7 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
                 display: none;
             }
 
-            input[type="radio"]:checked+label {
+            input[type="radio"]:checked + label {
                 font-weight: bold;
                 border-bottom: 2px dashed #3776e3;
             }
@@ -142,8 +160,46 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
             #form-title_settings:checked ~ .settings {
                 display: block;
                 color: black;
+                z-index: 1;
             }
-
+            [id^=c]{
+                display: none;
+            }
+            [id^=c] + label{
+                display: block;
+                width: 25px;
+                height: 25px;
+                border: 2px solid #e3e5ea;
+                border-radius: 5px;
+                text-align: center;
+                overflow: hidden;
+                position: relative;
+            }
+            [id^=c]:checked + label span{
+                position: relative;
+                display: inline-block;
+                margin-left: -9px;
+                margin-bottom: 5px;
+            }
+            [id^=c]:checked + label span:before{
+                content: '';
+                position: absolute;
+                left: -4.5px;
+                width: 10px;
+                height: 3px;
+                background: #3776e3;
+                -webkit-transform: rotate(50deg);
+                transform: rotate(50deg);
+            }
+            [id^=c]:checked + label span:after{
+                content: '';
+                position: absolute;
+                width: 14px;
+                height: 3px;
+                background: #3776e3;
+                -webkit-transform: rotate(-50deg);
+                transform: rotate(-50deg);
+            }
         </style>
     </head>
     <body>
@@ -197,21 +253,19 @@ if (isset($_GET['download']) and $_GET['download'] == 'true') {
                                 <div class="settings">
                                     Some settings
                                 </div>
-
                             </div>
                             <form class="form">
                                 <label for="label">Label</label>
                                 <input type="text" id="label" name="label" placeholder="First Name"><br>
                                 <label for="placeholder">Placeholder</label>
                                 <input type="text" id="placeholder" name="placeholder"><br>
-                                <label for="require">Require</label>
-                                <input type="checkbox" name="require">
+                                <label class="require" for="c1">Require</label>
+                                <input type="checkbox" name="c1" id="c1" />
+                                <label for="c1" id="form-check"><span></span></label>
                             </form>
-
-
                         </div>
-
                     </li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Категорії <span class="caret"></span></a>
